@@ -4,7 +4,10 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
-app.use(cors()); // This enables CORS for all routes
+app.use(cors({
+    // Replace with your specific origin
+    origin: 'https://authsignin.blogspot.com'
+  }));// This enables CORS for all routes
 
 
 // Use your MongoDB URI from .env or fallback (replace <db_password> if needed)
