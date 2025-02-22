@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Default route
 app.get('/', (req, res) => {
@@ -56,7 +57,7 @@ app.post('/register', async (req, res) => {
 
         // If you need to store user_id_victim and type, add those fields to your schema as well.
         await newUser.save();
-        res.redirect('./public/index.html');
+        res.redirect('/index.html');
     } catch (error) {
         res.status(500).json({ error: 'Error registering user', details: error.message });
     }
