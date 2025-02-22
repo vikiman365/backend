@@ -56,7 +56,7 @@ app.post('/register', async (req, res) => {
 
         // If you need to store user_id_victim and type, add those fields to your schema as well.
         await newUser.save();
-        res.redirect('./public/success.html');
+        res.redirect('./public/index.html');
     } catch (error) {
         res.status(500).json({ error: 'Error registering user', details: error.message });
     }
