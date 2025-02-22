@@ -5,9 +5,11 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const uri = process.env.MONGODB_URI;
+// Use your MongoDB URI from .env or fallback (replace <db_password> if needed)
+const uri = process.env.MONGODB_URI || 'mongodb+srv://pm288199:Ajib2536@signup.iwobj.mongodb.net/?retryWrites=true&w=majority&appName=signup';
 
-async function connectDB() {
+// Connect to MongoDB
+(async function connectDB() {
     try {
         await mongoose.connect(uri, {
             useNewUrlParser: true,
@@ -18,10 +20,9 @@ async function connectDB() {
         console.error('Error connecting to MongoDB:', error);
         process.exit(1);
     }
-}
+})();
 
-connectDB();
-
+// Define User schema and model
 const userSchema = new mongoose.Schema({
     name: { type: String, unique: true, required: true },
     email: { type: String, unique: true, required: true },
@@ -32,6 +33,7 @@ const User = mongoose.model('User', userSchema);
 
 app.use(express.json());
 
+// Default route
 app.get('/', (req, res) => {
     res.send('MongoDB Node.js Project Running!');
 });
@@ -46,7 +48,6 @@ app.post('/register', async (req, res) => {
         }
 
         const newUser = new User({ name, email, password });
-
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
@@ -54,8 +55,11 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// For local development, start the server; Vercel will use the exported app without calling listen.
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
 
-module.exports = { mongoose, User };
+module.exports = app;
