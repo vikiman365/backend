@@ -1,6 +1,7 @@
 {
   "name": "mongo_project",
   "version": "1.0.0",
+  
   "description": "MongoDB Node.js starter project",
   "main": "index.js",
   "scripts": {
