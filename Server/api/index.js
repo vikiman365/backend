@@ -2,8 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+const cors = require('cors');
+app.use(cors()); // This enables CORS for all routes
+
 
 // Use your MongoDB URI from .env or fallback (replace <db_password> if needed)
 const uri = process.env.MONGODB_URI || 'mongodb+srv://pm288199:Ajib2536@signup.iwobj.mongodb.net/?retryWrites=true&w=majority&appName=signup';
